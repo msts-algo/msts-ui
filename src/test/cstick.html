@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candlestick Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .candlestick {
+            fill: none;
+            stroke: black;
+            stroke-width: 1px;
+        }
+        .candlestick.wick {
+            stroke: black;
+        }
+        .candlestick.body {
+            stroke-width: 0;
+        }
+        .candlestick.up .body {
+            fill: green;
+        }
+        .candlestick.down .body {
+            fill: red;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: auto;
+            padding: 5px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <div id="tooltip" class="tooltip"></div>
+    <script>
+        async function fetchData() {
+            // Replace with your actual data fetching logic
+            const response = await fetch('http://localhost:5007/candles/USD_JPY/10');
+            const data = await response.json();
+            return data;
+        }
+
+        function processData(data) {
+            return data.map(doc => 
+                doc.candles.map(candle => ({
+                    time: new Date(candle.time),
+                    open: parseFloat(candle.mid.o),
+                    high: parseFloat(candle.mid.h),
+                    low: parseFloat(candle.mid.l),
+                    close: parseFloat(candle.mid.c)
+                }))
+            );
+        }
+
+        async function createChart() {
+            const rawData = await fetchData();
+            const data = processData(rawData);
+
+            const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+            const width = 960 - margin.left - margin.right;
+            const height = 500 - margin.top - margin.bottom;
+
+            const svg = d3.select("#chart").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleTime()
+                .domain(d3.extent(data, d => d.time))
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .domain([d3.min(data, d => d.low), d3.max(data, d => d.high)])
+                .range([height, 0]);
+
+            const xAxis = d3.axisBottom(x);
+            const yAxis = d3.axisLeft(y);
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", `translate(0,${height})`)
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+
+            const candleWidth = (width / data.length) * 0.8;
+
+            const tooltip = d3.select("#tooltip");
+
+            const candles = svg.selectAll(".candlestick")
+                .data(data)
+                .enter().append("g")
+                .attr("class", d => `candlestick ${d.close > d.open ? 'up' : 'down'}`)
+                .attr("transform", d => `translate(${x(d.time)},0)`)
+                .on("mouseover", (event, d) => {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(`
+                        <strong>Date:</strong> ${d.time.toLocaleString()}<br>
+                        <strong>Open:</strong> ${d.open}<br>
+                        <strong>High:</strong> ${d.high}<br>
+                        <strong>Low:</strong> ${d.low}<br>
+                        <strong>Close:</strong> ${d.close}
+                    `)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", () => {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            candles.append("line")
+                .attr("class", "wick")
+                .attr("y1", d => y(d.high))
+                .attr("y2", d => y(d.low));
+
+            candles.append("rect")
+                .attr("class", "body")
+                .attr("y", d => y(Math.max(d.open, d.close)))
+                .attr("height", d => Math.abs(y(d.open) - y(d.close)))
+                .attr("width", candleWidth)
+                .attr("x", -candleWidth / 2)
+                .attr("fill", d => d.close > d.open ? "green" : "red");
+        }
+
+        createChart();
+    </script>
+</body>
+</html>
