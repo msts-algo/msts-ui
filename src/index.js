@@ -9,6 +9,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import CandlestickChart from './components/candlestick';
+import Msdi from './components/msdi';
+import ModCandlestickChart from './components/mod_candlestick';
+import Register from './components/register';
+import Login from './components/login';
 
 const router = createBrowserRouter([
   {
@@ -16,12 +20,24 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
       {
-        path: "/chart",
-        element: <CandlestickChart />
+        path: "/register",
+        element: <Register />
+      },
+      {
+        path: "/login",
+        element: <Login />
       },
       {
         path: "/chart",
         element: <CandlestickChart />
+      },
+      {
+        path: "/msdi",
+        element: <Msdi />
+      },
+      {
+        path: "/modchart",
+        element: <ModCandlestickChart />
       },
     ],
   },

@@ -1,4 +1,8 @@
 [{
     "title": "Candlestick Chart",
     "href": "/chart"
+},
+{
+    "title": "Msdi",
+    "href": "/msdi"
 }]

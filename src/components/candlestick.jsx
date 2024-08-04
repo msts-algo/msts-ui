@@ -9,6 +9,7 @@ const CandlestickChart = () => {
   const [svg, setSvg] = useState();
   const [yaxis, setYAxis] = useState();
   const [xaxis, setXAxis] = useState();
+  const token = localStorage.getItem("token")
 
   const {
     register,
@@ -18,7 +19,13 @@ const CandlestickChart = () => {
   } = useForm();
 
   const getCurrencyPairs = async() => {
-    const response = await fetch('http://localhost:5007/currencies')
+    const response = await fetch('http://localhost:5007/currencies', {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
+          } 
+    })
     const currencies = await response.json()
     console.log(currencies)
     setCurrencyPairs(currencies)
@@ -135,7 +142,7 @@ const redraw = async(candles) => {
         .attr("y1", (d) => y(parseFloat(d['high'])))
         .attr("x2", (d) => x(d['time'].substring(0, 16)) + x.bandwidth() / 2)
         .attr("y2", (d) => y(parseFloat(d['low'])))
-        .attr("stroke", (d) => (parseFloat(d['open']) > parseFloat(d['close']) ? "red" : "green"));
+        .attr("stroke", (d) => (parseFloat(d['open']) > parseFloat(d['close']) ? "black" : "gray"));
 
 
 
@@ -174,23 +181,23 @@ const redraw = async(candles) => {
         .attr("width", x.bandwidth())
         .attr("height", (d) => Math.abs(y(parseFloat(d['open'])) - y(parseFloat(d['close']))))
         .attr("fill", (d) => {
-            var color = (parseFloat(d['open']) > parseFloat(d['close']) ? "red" : "green")
+            var color = (parseFloat(d['open']) > parseFloat(d['close']) ? "black" : "gray")
             if (d['is_order_block'] === true){
-                if(color === 'red') {
-                    color = 'pink'
+                if(color === 'black') {
+                    color = 'red'
                 } else {
-                    color = 'yellow'
+                    color = 'green'
                 }
             }
             return color
         })
         .attr("stroke", (d) => {
-            var color = (parseFloat(d['open']) > parseFloat(d['close']) ? "red" : "green")
+            var color = (parseFloat(d['open']) > parseFloat(d['close']) ? "black" : "gray")
             if (d['is_order_block'] === true) {
-                if(color === 'red') {
-                    color = 'pink'
+                if(color === 'black') {
+                    color = 'red'
                 } else {
-                    color = 'yellow'
+                    color = 'green'
                 }
             }
             return color
@@ -356,7 +363,13 @@ const redraw = async(candles) => {
   }
 
   const fetchCandles = async(data) => {
-    const response = await fetch("http://localhost:5007/candles/"+ data['currencyPair']+"/24")
+    const response = await fetch("http://localhost:5007/candles/"+ data['currencyPair']+"/24",{
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
+          } 
+    })
     return await response.json();
   }
 
