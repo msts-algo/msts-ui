@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import SocGrid from "./table/soc-grid";
 
 const Msdi = () => {
     const [msdi, setMsdi] = useState([]);
     const [msdiScores, setMsdiScores] = useState([]);
     const token = localStorage.getItem("token")
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async() => {
@@ -28,6 +30,9 @@ const Msdi = () => {
                     'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
                   } 
             })
+            if(rawMsdi.status !== 200) {
+                navigate('/login')
+              }
             const msdi = await rawMsdi.json()
             return msdi
         } catch (e) {
@@ -45,6 +50,9 @@ const Msdi = () => {
                     'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
                   } 
             })
+            if(rawMsdi.status !== 200) {
+                navigate('/login')
+              }
             const msdi = await rawMsdi.json()
             return msdi
         } catch (e) {

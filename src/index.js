@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/chart",
-        element: <CandlestickChart />
+        element: <ModCandlestickChart />
       },
       {
         path: "/msdi",

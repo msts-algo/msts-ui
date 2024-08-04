@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const ModCandlestickChart = () => {
   const svgRef = useRef();
@@ -9,7 +10,7 @@ const ModCandlestickChart = () => {
   const [yaxis, setYAxis] = useState();
   const [xaxis, setXAxis] = useState();
   const token = localStorage.getItem("token")
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -24,6 +25,9 @@ const ModCandlestickChart = () => {
             'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
           } 
     });
+    if(response.status !== 200) {
+      navigate('/login')
+    }
     const currencies = await response.json();
     setCurrencyPairs(currencies);
   }
@@ -260,6 +264,9 @@ const ModCandlestickChart = () => {
             'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
           } 
     });
+    if(response.status !== 200) {
+      navigate('/login')
+    }
     const candle = await response.json();
     console.log(candle)
     redraw(candle);
