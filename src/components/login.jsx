@@ -16,6 +16,7 @@ const Login = () => {
         if(data !== undefined) {
             const response = await fetch("http://localhost:5007/login",
                         {
+                            mode: 'no-cors',
                             method: "POST",
                             headers: {
                                 'Content-type':'application/json', 

@@ -24,6 +24,7 @@ const Msdi = () => {
     const fetchMsdi = async() => {
         try {
             const rawMsdi = await fetch('http://localhost:5007/msdi', {
+                mode: 'no-cors',
                 method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
@@ -44,6 +45,7 @@ const Msdi = () => {
     const fetchMsdiScores = async() => {
         try {
             const rawMsdi = await fetch('http://localhost:5007/msdi-scores', {
+                mode: 'no-cors',
                 method: "GET",
                 headers: { 
                     "Content-Type": "application/json",

@@ -19,6 +19,7 @@ const ModCandlestickChart = () => {
 
   const getCurrencyPairs = async() => {
     const response = await fetch('http://localhost:5007/currencies', {
+        mode: 'no-cors',
         method: "GET",
         headers: { 
             "Content-Type": "application/json",
@@ -258,6 +259,7 @@ const ModCandlestickChart = () => {
     const {symbol, interval, limit, currencyPair} = data;
     console.log(data);
     const response = await fetch(`http://localhost:5008/candles/${symbol}/100`, {
+        mode: 'no-cors',
         method: "GET",
         headers: { 
             "Content-Type": "application/json",

@@ -19,6 +19,7 @@ const Register = () => {
         if(data !== undefined) {
             const response = await fetch("http://localhost:5007/register",
                         {
+                            mode: 'no-cors',
                             method: "POST",
                             headers: {
                                 'Content-type':'application/json', 
