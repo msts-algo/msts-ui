@@ -18,7 +18,7 @@ const ModCandlestickChart = () => {
   } = useForm();
 
   const getCurrencyPairs = async() => {
-    const response = await fetch('http://localhost:5007/currencies', {
+    const response = await fetch('http://quant9.ddns.net:5007/currencies', {
         mode: 'no-cors',
         method: "GET",
         headers: { 
@@ -258,8 +258,7 @@ const ModCandlestickChart = () => {
   const fetchAndUpdateData = async(data) => {
     const {symbol, interval, limit, currencyPair} = data;
     console.log(data);
-    const response = await fetch(`http://localhost:5008/candles/${symbol}/100`, {
-        mode: 'no-cors',
+    const response = await fetch(`http://quant9.ddns.net:5008/candles/${symbol}/100`, {
         method: "GET",
         headers: { 
             "Content-Type": "application/json",

@@ -14,9 +14,8 @@ const Login = () => {
     const validate = async(data, e) => {
         const {email_id, token} = data
         if(data !== undefined) {
-            const response = await fetch("http://localhost:5007/login",
+            const response = await fetch("http://quant9.ddns.net:5007/login",
                         {
-                            mode: 'no-cors',
                             method: "POST",
                             headers: {
                                 'Content-type':'application/json', 

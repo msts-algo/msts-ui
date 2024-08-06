@@ -23,8 +23,7 @@ const Msdi = () => {
 
     const fetchMsdi = async() => {
         try {
-            const rawMsdi = await fetch('http://localhost:5007/msdi', {
-                mode: 'no-cors',
+            const rawMsdi = await fetch('http://quant9.ddns.net:5007/msdi', {
                 method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
@@ -44,8 +43,7 @@ const Msdi = () => {
 
     const fetchMsdiScores = async() => {
         try {
-            const rawMsdi = await fetch('http://localhost:5007/msdi-scores', {
-                mode: 'no-cors',
+            const rawMsdi = await fetch('http://quant9.ddns.net:5007/msdi-scores', {
                 method: "GET",
                 headers: { 
                     "Content-Type": "application/json",
