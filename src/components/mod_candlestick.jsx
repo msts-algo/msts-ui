@@ -19,7 +19,6 @@ const ModCandlestickChart = () => {
 
   const getCurrencyPairs = async() => {
     const response = await fetch('http://quant9.ddns.net:5007/currencies', {
-        mode: 'no-cors',
         method: "GET",
         headers: { 
             "Content-Type": "application/json",
