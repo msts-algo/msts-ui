@@ -13,6 +13,7 @@ import Msdi from './components/msdi';
 import ModCandlestickChart from './components/mod_candlestick';
 import Register from './components/register';
 import Login from './components/login';
+import Fibonacci from './components/fibonacci';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         path: "/modchart",
         element: <ModCandlestickChart />
       },
+      {
+        path:"/fibonacci",
+        element: <Fibonacci />
+      }
     ],
   },
 ]);
