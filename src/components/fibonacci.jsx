@@ -38,7 +38,7 @@ const Fibonacci = () => {
 
     const getCurrencyPairCharts = async (instrument) => {
         const { symbol } = instrument;
-        const response = await fetch(`http://localhost:5007/candles/${symbol}/100`, {
+        const response = await fetch(`http://quant9.ddns.net:5007/candles/${symbol}/100`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
