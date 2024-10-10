@@ -58,7 +58,7 @@ const Fibonacci = () => {
         console.log(response)
     };
 
-    const fibHeaders = ["instrument", "Type", "Time", "Start", "End","L0", "L236", "L382","L618","L888","L1" ]
+    const fibHeaders = ["instrument", "Type", "Time", "Start", "End","L0", "L618","L888","L1" ]
     const data = fibData?.data
     const modifiedData = []
     if(data !== undefined) {
@@ -71,8 +71,6 @@ const Fibonacci = () => {
           temp["Start"] = data[i].fib.start === undefined ? "" : "true"
           temp["End"] = data[i].fib.end === undefined ? "" : "true"
           temp["L0"] = data[i].fib.L0
-          temp["L236"] = data[i].fib.L236
-          temp["L382"] = data[i].fib.L382
           temp["L618"] = data[i].fib.L618
           temp["L888"] = data[i].fib.L888
           temp["L1"] = data[i].fib.L1
